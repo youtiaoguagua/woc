@@ -15,7 +15,7 @@ func ArgsFilter() f.Args {
 	return args
 }
 
-func FinalFilter(filter Filter) bool {
+func FinalFilter(container container.TypeContainer) bool {
 	return true
 }
 
@@ -55,6 +55,11 @@ func filterByWoc(filter Filter) Filter {
 	}
 }
 
-func BuildFilter() {
-
+//BuildFilter 构建过滤器
+func BuildFilter(name []string) func(container container.TypeContainer) bool {
+	filter := FinalFilter
+	filter = filterByLabel(filter)
+	filter = filterByName(filter, name)
+	filter = filterByWoc(filter)
+	return filter
 }

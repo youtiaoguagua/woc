@@ -12,8 +12,8 @@ const (
 
 type TypeContainer struct {
 	Old           bool
-	containerInfo *types.ContainerJSON
-	imageInfo     *types.ImageInspect
+	ContainerInfo *types.ContainerJSON
+	ImageInfo     *types.ImageInspect
 }
 
 type Container interface {
@@ -23,16 +23,16 @@ type Container interface {
 }
 
 func (c TypeContainer) Name() string {
-	return c.containerInfo.Name
+	return c.ContainerInfo.Name
 }
 
 func (c TypeContainer) IsWoc() bool {
-	s, ok := c.containerInfo.Config.Labels[wocLabel]
+	s, ok := c.ContainerInfo.Config.Labels[wocLabel]
 	return ok && s == "true"
 }
 
 func (c TypeContainer) Enabled() (bool, bool) {
-	val, ok := c.containerInfo.Config.Labels[enableLabel]
+	val, ok := c.ContainerInfo.Config.Labels[enableLabel]
 	if !ok {
 		return false, false
 	}
