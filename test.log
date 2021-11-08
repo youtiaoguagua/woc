@@ -1,0 +1,4 @@
+2021-11-07T01:24:27.093+0800	DEBUG	woc/main.go:42	Trying to hit GET request for www.sogo.com
+2021-11-07T01:24:27.105+0800	ERROR	woc/main.go:45	Error fetching URL www.sogo.com : Error = Get "www.sogo.com": unsupported protocol scheme ""
+2021-11-07T01:24:27.105+0800	DEBUG	woc/main.go:42	Trying to hit GET request for http://www.sogo.com
+2021-11-07T01:24:27.291+0800	INFO	woc/main.go:47	Success! statusCode = 200 OK for URL http://www.sogo.com
