@@ -37,8 +37,8 @@ func filterByName(filter Filter, names []string) Filter {
 //filterLabel 过滤带有标签的容器
 func filterByLabel(filter Filter) Filter {
 	return func(container container.TypeContainer) bool {
-		enabled, b := container.Enabled()
-		if enabled && b {
+		enabled := container.Enabled()
+		if enabled {
 			return true
 		}
 		return filter(container)
@@ -46,7 +46,7 @@ func filterByLabel(filter Filter) Filter {
 }
 
 //filterByWoc 过滤本容器
-func filterByWoc(filter Filter) Filter {
+func FilterByWoc(filter Filter) Filter {
 	return func(container container.TypeContainer) bool {
 		if container.IsWoc() {
 			return false
@@ -56,10 +56,9 @@ func filterByWoc(filter Filter) Filter {
 }
 
 //BuildFilter 构建过滤器
-func BuildFilter(name []string) func(container container.TypeContainer) bool {
+func BuildFilter(name []string) Filter {
 	filter := FinalFilter
 	filter = filterByLabel(filter)
 	filter = filterByName(filter, name)
-	filter = filterByWoc(filter)
 	return filter
 }

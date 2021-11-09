@@ -6,8 +6,9 @@ import (
 )
 
 const (
-	enableLabel = "com.woc.enableLabel.enable"
-	wocLabel    = "com.woc.wocLabel.enable"
+	enableLabel     = "com.woc.enableLabel.enable"
+	enableHttpLabel = "com.woc.enableLabel.enable"
+	wocLabel        = "com.woc.wocLabel.enable"
 )
 
 type TypeContainer struct {
@@ -19,7 +20,22 @@ type TypeContainer struct {
 type Container interface {
 	Name() string
 	IsWoc() bool
-	Enabled() (bool, bool)
+	Enabled() bool
+	HttpEnable() bool
+}
+
+func (c TypeContainer) HttpEnable() bool {
+	val, ok := c.ContainerInfo.Config.Labels[enableHttpLabel]
+	if !ok {
+		return false
+	}
+
+	parsedBool, err := strconv.ParseBool(val)
+	if err != nil {
+		return false
+	}
+
+	return parsedBool
 }
 
 func (c TypeContainer) Name() string {
@@ -31,16 +47,16 @@ func (c TypeContainer) IsWoc() bool {
 	return ok && s == "true"
 }
 
-func (c TypeContainer) Enabled() (bool, bool) {
+func (c TypeContainer) Enabled() bool {
 	val, ok := c.ContainerInfo.Config.Labels[enableLabel]
 	if !ok {
-		return false, false
+		return false
 	}
 
 	parsedBool, err := strconv.ParseBool(val)
 	if err != nil {
-		return false, false
+		return false
 	}
 
-	return parsedBool, true
+	return parsedBool
 }
